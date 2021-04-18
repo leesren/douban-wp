@@ -33,14 +33,19 @@ const actions = createFormActions();
 class Page extends Component<Props & any, any> {
   constructor(props: Props) {
     super(props);
+    let query: any = sessionStorage.getItem('searchData');
+    query = query ? JSON.parse(query) : {}
+    this.state = {
+      not: query.not,
+      keyword: query.keyword,
+      visible: false,
+    };
   }
-  state = {
-    not: '',
-    keyword: '',
-    visible: false,
-  };
   UNSAFE_componentWillMount() {
-    this.load()
+    this.load({
+      not: this.state.not,
+      keyword: this.state.keyword,
+    })
   }
   load = (query: any = {
     bank: false,
@@ -157,14 +162,19 @@ class Page extends Component<Props & any, any> {
                 actions.validate().then(e => {
                   const data = actions.getFormState(state => state.values)
                   console.log(data);
-                  const notTitle = data.not.trim()
-                  this.load({
+                  const notTitle = (data.not || '').trim();
+                  const query = {
                     "bank": false,
                     "title": { "contains": data.keyword },
                     "NOT": notTitle ? {
                       "title": { "contains": notTitle }
                     } : undefined
-                  })
+                  }
+                  this.load(query);
+                  sessionStorage.setItem('searchData', JSON.stringify({
+                    keyword: data.keyword,
+                    not: notTitle
+                  }))
                   this.setState({
                     visible: false
                   })
