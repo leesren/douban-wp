@@ -1,0 +1,31 @@
+@import '../styles/index.less';
+.navHeader {
+  box-shadow: 8px 10px 20px 0 rgba(46, 61, 73, 0.15);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  :global {
+    .biz-nav-bar__left,
+    .biz-nav-bar__right {
+      padding: 0 5px;
+    }
+  }
+}
+.layout-enter {
+  opacity: 0;
+}
+.layout-enter-active {
+  opacity: 1;
+}
+.layout-exit {
+  opacity: 1;
+}
+.layout-exit-active {
+  opacity: 0;
+}
+.layout-enter-active,
+.layout-exit-active {
+  transition: opacity 300ms, transform 300ms;
+}

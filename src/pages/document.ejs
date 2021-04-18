@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="renderer" content="webkit" />
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1,shrink-to-fit=no,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover" />
+  <meta name="format-detection" content="telphone=yes, email=no" />
+  <title>
+    Your App
+  </title>
+  <script>
+    function setRem() {
+      // 320 默认大小16px; 320px = 20rem ;每个元素px基础上/16
+      var htmlWidth =
+        document.documentElement.clientWidth || document.body.clientWidth;
+      //得到html的Dom元素
+      var htmlDom = document.getElementsByTagName('html')[0];
+      var maxSize = 20;
+      var minSize = 15;
+      var baseSize = maxSize;
+      if (htmlWidth >= 750) {
+        baseSize = maxSize;
+      } else if (htmlWidth <= 320) {
+        baseSize = minSize;
+      } else {
+        baseSize = (1 + (htmlWidth - 320) / 320) * minSize;
+      }
+      //设置根元素字体大小
+      htmlDom.style.fontSize = baseSize + 'px';
+    }
+    // 初始化
+    setRem();
+    // 改变窗口大小时重新设置 rem
+
+    window.addEventListener('resize', setRem);
+  </script>
+  <style>
+    #root {
+      max-width: 750px;
+      margin: 0 auto;
+      overflow-x: hidden;
+    }
+
+    .root-loading {
+      width: 20%;
+      text-align: center;
+      padding: 1em;
+      margin: 0 auto 1em;
+      display: inline-block;
+      vertical-align: top;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="root">
+    <div class="root-loading">
+
+      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        x="0px" y="0px" width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;"
+        xml:space="preserve">
+        <rect x="0" y="10" width="4" height="10" fill="#333" opacity="0.2">
+          <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="0.6s"
+            repeatCount="indefinite"></animate>
+          <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s" dur="0.6s"
+            repeatCount="indefinite"></animate>
+          <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s"
+            repeatCount="indefinite"></animate>
+        </rect>
+        <rect x="8" y="10" width="4" height="10" fill="#333" opacity="0.2">
+          <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s" dur="0.6s"
+            repeatCount="indefinite"></animate>
+          <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s" dur="0.6s"
+            repeatCount="indefinite"></animate>
+          <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s"
+            repeatCount="indefinite"></animate>
+        </rect>
+        <rect x="16" y="10" width="4" height="10" fill="#333" opacity="0.2">
+          <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s" dur="0.6s"
+            repeatCount="indefinite"></animate>
+          <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s" dur="0.6s"
+            repeatCount="indefinite"></animate>
+          <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s"
+            repeatCount="indefinite"></animate>
+        </rect>
+      </svg>
+    </div>
+  </div>
+</body>
+
+</html>
