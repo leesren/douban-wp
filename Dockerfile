@@ -15,17 +15,19 @@ FROM nginx:1.15.10-alpine
 # RUN npm ci --only=production
 
 # Bundle app source
-COPY ./nginx.conf /etc/nginx/nginx.conf
+# COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY ./douban /usr/share/nginx/html
 
-EXPOSE 80
+EXPOSE 8377
 
 # ENTRYPOINT ["sh", "/docker-entrypoint.sh"]
 
 # CMD ["echo","http://localhost:3003"] 
 
 # Build image
-# docker build -t zenberge/db-fe:latest .
+# docker build -t zenberge/page:latest .
+# docker build -t zenberge/page:latest .
 
 # Run docker
 # docker run -e NODE_ENV=staging --name pm2_test -p 3500:3500  -d  pm2_test:v1

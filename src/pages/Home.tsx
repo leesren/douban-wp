@@ -36,16 +36,13 @@ class Page extends Component<Props & any, any> {
     let query: any = sessionStorage.getItem('searchData');
     query = query ? JSON.parse(query) : {}
     this.state = {
-      not: query.not,
+      not: '',
       keyword: query.keyword,
       visible: false,
     };
   }
   UNSAFE_componentWillMount() {
-    this.load({
-      not: this.state.not,
-      keyword: this.state.keyword,
-    })
+    this.load()
   }
   load = (query: any = {
     bank: false,
@@ -73,11 +70,33 @@ class Page extends Component<Props & any, any> {
     const { dispatch } = this.props;
     try {
       await dispatch({ type: 'home/doUpdate', payload: { id, data } })
-      this.load()
+      this.search()
     } catch (error) {
 
     }
 
+  }
+  search = () => {
+    actions.validate().then(e => {
+      const data = actions.getFormState(state => state.values)
+      console.log(data);
+      const notTitle = (data.not || '').trim();
+      const query = {
+        "bank": false,
+        "title": { "contains": data.keyword },
+        "NOT": notTitle ? {
+          "title": { "contains": notTitle }
+        } : undefined
+      }
+      this.load(query);
+      sessionStorage.setItem('searchData', JSON.stringify({
+        keyword: data.keyword,
+        not: notTitle
+      }))
+      this.setState({
+        visible: false
+      })
+    })
   }
   render() {
     let { not, keyword } = this.state;
@@ -141,7 +160,7 @@ class Page extends Component<Props & any, any> {
                 inputItemProps={{ clear: true }}
                 labelProps={{ className: 'bg-white' }}
                 required={true}
-                rules={[{ required: true, message: '必填' }]}
+                rules={[{ required: false, message: '必填' }]}
               ></InputItem>
               <WhiteSpace className="bg-body" />
               <TextareaItem
@@ -158,28 +177,7 @@ class Page extends Component<Props & any, any> {
             <BizActionBar.BarButton
               type="warning"
               block
-              onClick={() => {
-                actions.validate().then(e => {
-                  const data = actions.getFormState(state => state.values)
-                  console.log(data);
-                  const notTitle = (data.not || '').trim();
-                  const query = {
-                    "bank": false,
-                    "title": { "contains": data.keyword },
-                    "NOT": notTitle ? {
-                      "title": { "contains": notTitle }
-                    } : undefined
-                  }
-                  this.load(query);
-                  sessionStorage.setItem('searchData', JSON.stringify({
-                    keyword: data.keyword,
-                    not: notTitle
-                  }))
-                  this.setState({
-                    visible: false
-                  })
-                })
-              }}
+              onClick={this.search}
 
             >
               搜索
