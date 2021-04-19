@@ -42,7 +42,10 @@ class Page extends Component<Props & any, any> {
     };
   }
   UNSAFE_componentWillMount() {
-    this.load()
+    this.load({
+      bank: false,
+      like: false
+    })
   }
   load = (query: any = {
     bank: false,
@@ -83,6 +86,7 @@ class Page extends Component<Props & any, any> {
       const notTitle = (data.not || '').trim();
       const query = {
         "bank": false,
+        "like": false,
         "title": { "contains": data.keyword },
         "NOT": notTitle ? {
           "title": { "contains": notTitle }

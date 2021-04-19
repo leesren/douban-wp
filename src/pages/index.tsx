@@ -47,7 +47,8 @@ class Page extends Component<Props, any> {
     dispatch({
       type: 'home/fetchLike', payload: {
         "query": {
-          like: true
+          like: true,
+          bank: false,
         },
         "take": 50,
         "pageNo": 1,

@@ -44,13 +44,19 @@ async function upload(params) {
   try {
     const groupInfo = getGroupInfo();
     if (groupInfo.name) {
-      await send({
-        message: 'Upload',
-        data: {
-          groupInfo,
-          list: getData(groupInfo.name, []),
-        },
-      });
+      const slice = 1000;
+      const list = getData(groupInfo.name, []);
+      const len = Math.ceil(list.length / slice);
+      for (let index = 0; index < len; index++) {
+        let ls = list.slice(index * slice, slice * (index + 1));
+        await send({
+          message: 'Upload',
+          data: {
+            groupInfo,
+            list: ls,
+          },
+        });
+      }
       console.info('上传完成.');
     }
   } catch (error) {
@@ -97,7 +103,9 @@ function toggleUser(btnBox) {
 }
 function getGroupInfo() {
   try {
-    const groupDom = document.getElementById('g-side-info-member');
+    const groupDom =
+      document.getElementById('g-side-info-member') ||
+      document.getElementById('g-side-info');
     const groupInfo = {
       name: groupDom.querySelector('.title').innerText,
       url: groupDom.querySelector('.title a').getAttribute('href'),
@@ -193,7 +201,7 @@ async function getPost({ cacheData, query, dataMap, storeKey }) {
   if (pageData.length === 0) {
   } else {
     saveData({ cacheData, dataMap, list: pageData, storeKey });
-    await delay(3500 + Math.ceil(Math.random() * 1000));
+    await delay(2203 + Math.ceil(600 + Math.random() * 2000));
     const count = +query.start + 25;
     reload(count);
   }
